@@ -379,7 +379,7 @@ def sample_random_requests(
         chat_template_dummy = tokenizer.apply_chat_template(
             [{"role": "user", "content": "a"}],
             add_generation_prompt=True,
-            tokenize=False,
+            tokenize=False, reasoning_effort='high'
         )
         tokenized_chat_template_dummy = tokenizer.encode(chat_template_dummy, add_special_tokens=False)
         chat_template_len = len(tokenized_chat_template_dummy) - 1
@@ -399,7 +399,7 @@ def sample_random_requests(
     input_requests = []
     for i in range(num_prompts):
         prompt = tokenizer.decode(prefix_token_ids +
-                                  [(offsets[i] + i + j) % tokenizer.vocab_size
+                                  [(offsets[i] + i + j) % 199995
                                    for j in range(input_lens[i])])
         re_encoded_sequence = tokenizer.encode(prompt, add_special_tokens=False)[
                 :(prefix_len + input_lens[i])
@@ -409,7 +409,7 @@ def sample_random_requests(
             prompt = tokenizer.apply_chat_template(
                 [{"role": "user", "content": prompt}],
                 add_generation_prompt=True,
-                tokenize=False,
+                tokenize=False, reasoning_effort='high'
             )
             input_lens[i] += chat_template_len
 
